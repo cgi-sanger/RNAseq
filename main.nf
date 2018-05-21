@@ -486,15 +486,7 @@ process irods {
         set val(sample), file('*.cram') optional true into cram_files
     script:
     """
-    IMETA_OUTPUT="\$(imeta qu -z seq \\
-        -d sample = ${sample} \\
-        and target = 1 and manual_qc = 1)"
-    if [ "\$(echo \$IMETA_OUTPUT)" != 'No rows found' ]; then
-        echo "\${IMETA_OUTPUT}" \\
-        | sed ':a;N;\$!ba;s/----\\ncollection:/iget -K/g' \\
-        | sed ':a;N;\$!ba;s/\\ndataObj: /\\//g' \\
-        | bash
-    fi
+    irods.sh ${sample}
     """
 }
 
